@@ -12,7 +12,7 @@ def black_scholes_call(S, K, T, r, sigma):
 
 # Define the parameters for the option strategy
 S = np.linspace(3000, 4000, 400)  # Range of stock prices
-r = 0.01  # Risk-free rate
+r = 0.057  # Risk-free rate; daily yield curve rates (use expiry length); https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics?data=yield
 Date = "06/21/2024"  # Expiration date of short call
 K1 = 3450  # Strike price of short call
 IV1 = 50.8  # Implied Volatility for short call
