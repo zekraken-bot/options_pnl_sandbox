@@ -33,7 +33,6 @@ today = datetime.today()
 #T2 = 15
 T1 = (date1 - today).days  
 T2 = (date2 - today).days
-print(T1, T2)
 
 
 # Calculate the prices for the two call options with updated IVs
