@@ -11,13 +11,14 @@ def black_scholes_call(S, K, T, r, sigma):
     return call_price
 
 # Define the parameters for the option strategy
-lower_range = 3100
-upper_range = 4000
-Date = "06/28/2024"  # Expiration date of short call
-K1 = 3300  # Strike price of short call
-IV1 = 59.8  # Implied Volatility for short call
-premium_received = 225.8  # Premium received for short call
-num_contracts = 6.25
+lower_range = 3345
+upper_range = 3525
+Date = "07/12/2024"  # Expiration date of short call
+K1 = 3400  # Strike price of short call
+IV1 = 48.7  # Implied Volatility for short call
+premium_received = 121.3 
+  # Premium received for short call
+num_contracts = 6.5
 r = 0.01  # Risk-free rate; daily yield curve rates (use expiry length); https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics?data=yield
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 
@@ -51,8 +52,8 @@ ax.legend(fontsize=9)
 ax.grid(True)
 
 # Selecting specific prices for the table, including K1 and breakeven price
-table_prices = np.linspace(lower_range, upper_range, 19)
-table_prices = np.append(table_prices, [breakeven_price, lower_range, upper_range])
+table_prices = np.linspace(lower_range, upper_range, 20)
+table_prices = np.append(table_prices, [lower_range, upper_range])
 table_prices = np.unique(np.sort(table_prices))  # Ensure sorted and unique values
 
 # Interpolating payoffs at these prices
@@ -70,11 +71,7 @@ table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_p
 
 # Highlighting the columns for K1 and breakeven price
 for col in range(len(table_prices)):
-    if table_prices[col] == breakeven_price:
-        table[(0, col)].set_facecolor('#BCD7FF')
-        table[(1, col)].set_facecolor('#BCD7FF')
-        table[(2, col)].set_facecolor('#BCD7FF')
-    elif table_prices[col] == lower_range:
+    if table_prices[col] == lower_range:
         table[(0, col)].set_facecolor('#FFB6C1')
         table[(1, col)].set_facecolor('#FFB6C1')
         table[(2, col)].set_facecolor('#FFB6C1')

@@ -18,19 +18,19 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy
-lower_range = 2800
+lower_range = 2400
 upper_range = 4000
-expiration_date = "07/05/2024"  # Expiration date of all options
-K2 = 3000  # Strike price of long put
-K1 = 3200  # Strike price of short put
-K4 = 3500  # Strike price of short call
-K3 = 3700  # Strike price of long call
-IV = 0.56  # Implied Volatility for options
-premium_paid_put = 25.75  # Premium paid for long put
-premium_received_put = 67.14  # Premium received for short put
-premium_received_call = 78.42  # Premium received for short call
-premium_paid_call = 39.52  # Premium paid for long call
-num_contracts = 10.5
+expiration_date = "07/26/2024"  # Expiration date of all options
+K2 = 2600  # Strike price of long put
+K1 = 2800  # Strike price of short put
+K4 = 3400  # Strike price of short call
+K3 = 3600  # Strike price of long call
+IV = 0.60  # Implied Volatility for options
+premium_paid_put = 25.76  # Premium paid for long put
+premium_received_put = 54.98  # Premium received for short put
+premium_received_call = 76.74  # Premium received for short call
+premium_paid_call = 46.25  # Premium paid for long call
+num_contracts = 30
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 
@@ -66,23 +66,6 @@ current_payoff = (
     - call_price_K4_today * num_contracts + premium_received_call * num_contracts
 )
 
-# Calculate the new time to expiration for tomorrow
-T_tomorrow = (date1 - (today + timedelta(days=1))).days / 365.0
-
-# Calculate the price for the options tomorrow
-call_price_K3_tomorrow = black_scholes_call(S, K3, T_tomorrow, r, IV)
-call_price_K4_tomorrow = black_scholes_call(S, K4, T_tomorrow, r, IV)
-put_price_K1_tomorrow = black_scholes_put(S, K1, T_tomorrow, r, IV)
-put_price_K2_tomorrow = black_scholes_put(S, K2, T_tomorrow, r, IV)
-
-# Calculate the projected payoff for tomorrow
-projected_payoff_tomorrow = (
-    -put_price_K1_tomorrow * num_contracts + premium_received_put * num_contracts
-    + put_price_K2_tomorrow * num_contracts - premium_paid_put * num_contracts
-    + call_price_K3_tomorrow * num_contracts - premium_paid_call * num_contracts
-    - call_price_K4_tomorrow * num_contracts + premium_received_call * num_contracts
-)
-
 # Calculate the net credit received
 net_credit_received = (premium_received_put - premium_paid_put) + (premium_received_call - premium_paid_call)
 
@@ -94,7 +77,6 @@ breakeven_price_high = K4 + net_credit_received
 fig, ax = plt.subplots(figsize=(14, 8))
 ax.plot(S, payoff_iron_condor, label=f'Payoff at Expiration ({expiration_date})', color='black')
 ax.plot(S, current_payoff, label='Current Payoff', linestyle='dotted', color='purple')
-ax.plot(S, projected_payoff_tomorrow, label='Projected Payoff for Tomorrow', linestyle='dotted', color='orange')
 ax.set_xlabel("Stock Price")
 ax.set_ylabel("Profit / Loss")
 ax.axhline(0, color='black', lw=0.5)
@@ -115,11 +97,10 @@ table_prices = np.unique(np.sort(table_prices))  # Ensure sorted and unique valu
 # Interpolating payoffs at these prices
 table_payoffs = np.interp(table_prices, S, payoff_iron_condor)  # Interpolating payoffs at these prices
 table_current_payoffs = np.interp(table_prices, S, current_payoff)  # Interpolating current payoffs at these prices
-table_projected_payoffs = np.interp(table_prices, S, projected_payoff_tomorrow)  # Interpolating projected payoffs at these prices
 
 # Adding a table at the bottom of the plot
-table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_payoffs, 2), np.round(table_projected_payoffs, 2)],
-                  rowLabels=['PnL at Expiration', 'Current PnL', 'Projected PnL for Tomorrow'],
+table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_payoffs, 2)],
+                  rowLabels=['PnL at Expiration', 'Current PnL'],
                   colLabels=table_prices.astype(int),
                   cellLoc='center',
                   rowLoc='center',
@@ -134,7 +115,6 @@ for col in range(len(table_prices)):
         table[(0, col)].set_facecolor(colors[highlight_strikes.index(table_prices[col])])
         table[(1, col)].set_facecolor(colors[highlight_strikes.index(table_prices[col])])
         table[(2, col)].set_facecolor(colors[highlight_strikes.index(table_prices[col])])
-        table[(3, col)].set_facecolor(colors[highlight_strikes.index(table_prices[col])])
 
 plt.subplots_adjust(left=0.2, bottom=0.4)
 plt.show()

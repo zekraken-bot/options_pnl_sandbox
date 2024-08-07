@@ -11,16 +11,16 @@ def black_scholes_call(S, K, T, r, sigma):
     return call_price
 
 # Define the parameters for the option strategy
-lower_range = 2000
-upper_range = 4000
-strike_price_sell = 3000  # Strike price for the call we sell
-strike_price_buy = 3400  # Strike price for the calls we buy
-expiration_date = "08/09/2024"  # Expiration date of all options
-IV = 63  # Implied Volatility for options
-premium_received_call = 366.2  # Premium received for selling the call
-premium_paid_call = 119  # Premium paid for buying the calls
-num_contracts_sell = 10
-num_contracts_buy = 10
+lower_range = 2500
+upper_range = 3500
+strike_price_buy = 3000  # Strike price for the calls we buy
+strike_price_sell = 2900  # Strike price for the call we sell
+expiration_date = "08/16/2024"  # Expiration date of all options
+IV = 55.2  # Implied Volatility for options
+premium_paid_call = 113.3  # Premium paid for buying the calls
+premium_received_call = 150  # Premium received for selling the call
+num_contracts_buy = 5
+num_contracts_sell = 5
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 
@@ -33,10 +33,10 @@ T = (date1 - today).days / 365.0  # Time to expiration in years
 call_price_sell_today = black_scholes_call(S, strike_price_sell, T, r, IV/100)
 call_price_buy_today = black_scholes_call(S, strike_price_buy, T, r, IV/100)
 
-# Calculate the payoff for the call backspread at expiration
+# Calculate the payoff for the vertical spread at expiration
 payoff_sell_call = num_contracts_sell * (-np.maximum(S - strike_price_sell, 0) + premium_received_call)
 payoff_buy_call = num_contracts_buy * (np.maximum(S - strike_price_buy, 0) - premium_paid_call)
-payoff_backspread = payoff_sell_call + payoff_buy_call
+payoff_vertical_spread = payoff_sell_call + payoff_buy_call
 
 # Calculate the current value of the options
 current_payoff_sell = num_contracts_sell * (-call_price_sell_today + premium_received_call)
@@ -45,7 +45,7 @@ current_payoff = current_payoff_sell + current_payoff_buy
 
 # Plotting the payoffs
 fig, ax = plt.subplots(figsize=(14, 8))
-ax.plot(S, payoff_backspread, label=f'Payoff at Expiration ({expiration_date})', color='black')
+ax.plot(S, payoff_vertical_spread, label=f'Payoff at Expiration ({expiration_date})', color='black')
 ax.plot(S, current_payoff, label='Current Payoff', linestyle='dotted', color='purple')
 ax.set_xlabel("Stock Price")
 ax.set_ylabel("Profit / Loss")
@@ -61,7 +61,7 @@ table_prices = np.append(table_prices, [strike_price_sell, strike_price_buy])
 table_prices = np.unique(np.sort(table_prices))  # Ensure sorted and unique values
 
 # Interpolating payoffs at these prices
-table_payoffs = np.interp(table_prices, S, payoff_backspread)  # Interpolating payoffs at these prices
+table_payoffs = np.interp(table_prices, S, payoff_vertical_spread)  # Interpolating payoffs at these prices
 table_current_payoffs = np.interp(table_prices, S, current_payoff)  # Interpolating current payoffs at these prices
 
 # Adding a table at the bottom of the plot
