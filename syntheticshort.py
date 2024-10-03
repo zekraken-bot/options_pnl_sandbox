@@ -23,7 +23,7 @@ upper_range = 4000
 show_down = 2800
 show_up = 3800
 
-expiration_date = "08/09/2024"  # Expiration date of all options
+expiration_date = "10/11/2024"  # Expiration date of all options
 IV = 0.60  # Implied Volatility for options
 r = 0.01  # Risk-free rate
 
@@ -31,13 +31,13 @@ r = 0.01  # Risk-free rate
 K_strike = 3200  # Strike price for both the call sell and put buy
 premium_received_call_sell = 167.14
 premium_paid_put_buy = 121.2
-num_contracts_call = 2  # Number of contracts for call sell
+num_contracts_call = 6  # Number of contracts for call sell
 num_contracts_put = 4   # Number of contracts for put buy
 
 # Parameters for the long call
 K_strike_long_call = 3100  # Strike price for the long call
 premium_paid_call_buy = 237.43
-num_contracts_call_long = 2  # Number of contracts for long call buy
+num_contracts_call_long = 0  # Number of contracts for long call buy
 
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 

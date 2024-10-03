@@ -13,14 +13,16 @@ def black_scholes_call(S, K, T, r, sigma):
 # Define the parameters for the option strategy
 lower_range = 1500
 upper_range = 3500
-strike_price_sell = 2100  # Strike price for the call we sell
+lower_val = 2350
+upper_val = 2750
+strike_price_sell = 2700  # Strike price for the call we sell
 strike_price_buy = 2400  # Strike price for the calls we buy
-expiration_date = "09/20/2024"  # Expiration date of all options
-IV = 63  # Implied Volatility for options
-premium_received_call = 195.4  # Premium received for selling the call
-premium_paid_call = 59.3  # Premium paid for buying the calls
+expiration_date = "10/04/2024"  # Expiration date of all options
+IV = 60  # Implied Volatility for options
+premium_received_call = 69.9  # Premium received for selling the call
+premium_paid_call = 250.3 # Premium paid for buying the calls
 num_contracts_sell = 1
-num_contracts_buy = 2
+num_contracts_buy = 1
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 
@@ -57,7 +59,7 @@ ax.grid(True)
 
 # Selecting specific prices for the table
 table_prices = np.linspace(lower_range, upper_range, 19)
-table_prices = np.append(table_prices, [strike_price_sell, strike_price_buy])
+table_prices = np.append(table_prices, [lower_val, upper_val])
 table_prices = np.unique(np.sort(table_prices))  # Ensure sorted and unique values
 
 # Interpolating payoffs at these prices
@@ -74,7 +76,7 @@ table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_p
                   bbox=[0.0, -0.4, 1, 0.25])  # Adjust bbox to fit within figure
 
 # Highlighting the columns for strike prices
-highlight_strikes = [strike_price_sell, strike_price_buy]
+highlight_strikes = [lower_val, upper_val]
 colors = ['#FFB6C1', '#ADD8E6']
 for col in range(len(table_prices)):
     if table_prices[col] in highlight_strikes:

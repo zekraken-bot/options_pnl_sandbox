@@ -8,15 +8,15 @@ def calculate_profit_loss(current_price, amount_shorted, price_range):
     return prices, profit_loss
 
 # Inputs
-current_eth_price = 2650.7  # Current ETH price in dollars
-amount_eth_shorted = 3  # Amount of ETH shorted
+current_eth_price = 2655  # Current ETH price in dollars
+amount_eth_shorted = 1 # Amount of ETH shorted
 
 # Define the range where you want to see the profit/loss outcome
 price_range = (1000, 5000)
 
 # Prices to highlight
 highlight_price_1 = 2450
-highlight_price_2 = 2900
+highlight_price_2 = 2750
 
 # Calculate profit/loss
 prices, profit_loss = calculate_profit_loss(current_eth_price, amount_eth_shorted, price_range)

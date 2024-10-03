@@ -20,7 +20,7 @@ def black_scholes_put(S, K, T, r, sigma):
 # Define the parameters for the option strategy
 lower_range = 2400
 upper_range = 4000
-expiration_date = "07/26/2024"  # Expiration date of all options
+expiration_date = "08/30/2024"  # Expiration date of all options
 K2 = 2600  # Strike price of long put
 K1 = 2800  # Strike price of short put
 K4 = 3400  # Strike price of short call

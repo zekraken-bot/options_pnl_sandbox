@@ -18,18 +18,18 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy
-lower_range = 2800
-upper_range = 4200
-expiration_date = "08/09/2024"  # Expiration date of all options
-upper_price = 3600
-lower_price = 3300
-K_put = 3100  # Strike price for the short put
-K_call = 3700  # Strike price for the short call
-IV = 0.72  # Implied Volatility for options
-premium_received_put = 33.4  # Premium received for short put
-premium_received_call = 82.7  # Premium received for short call
-num_contracts_put = 15  # Number of contracts for the put option
-num_contracts_call = 15  # Number of contracts for the call option
+lower_range = 2000
+upper_range = 3200
+expiration_date = "10/04/2024"  # Expiration date of all options
+upper_price = 2750
+lower_price = 2350
+K_put = 2300  # Strike price for the short put
+K_call = 2800  # Strike price for the short call
+IV = 0.64  # Implied Volatility for options
+premium_received_put = 20.8  # Premium received for short put
+premium_received_call = 41.5  # Premium received for short call
+num_contracts_put = 2  # Number of contracts for the put option
+num_contracts_call = 2  # Number of contracts for the call option
 
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
@@ -94,7 +94,7 @@ table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_p
                   bbox=[0.0, -0.4, 1, 0.25])  # Adjust bbox to fit within figure
 
 # Highlighting the columns for K_put, K_call and breakeven prices
-highlight_strikes = [K_put, K_call]
+highlight_strikes = [upper_price, lower_price]
 colors = ['#FFB6C1', '#ADD8E6', '#98FB98']
 for col in range(len(table_prices)):
     if table_prices[col] in highlight_strikes:

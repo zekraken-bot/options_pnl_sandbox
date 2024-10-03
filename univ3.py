@@ -48,8 +48,8 @@ def get_new_USDC_amount(new_WETH_price):
         else:
             return (L * np.sqrt(upper_bound)) - (L * np.sqrt(lower_bound))
 
-# Range of new WETH prices
-new_WETH_prices = np.linspace(lower_bound, upper_bound, 100)
+# Range of new WETH prices including values below the lower bound
+new_WETH_prices = np.linspace(lower_bound - 200, upper_bound, 150)  # Expanded range
 new_investment_worths = []
 
 # Calculate new investment worth for each new WETH price
@@ -60,7 +60,10 @@ for price in new_WETH_prices:
     new_investment_worths.append(new_investment_worth)
 
 # Ensure price range for table includes lower and upper bounds
-price_range = np.linspace(lower_bound, upper_bound, 15)
+price_range = np.linspace(lower_bound - 200, upper_bound, 15)
+price_range = np.append(price_range, [current_price, lower_bound])
+price_range = np.unique(np.sort(price_range))  # Ensure sorted and unique values
+
 net_worth_range = []
 profit_loss_range = []
 
