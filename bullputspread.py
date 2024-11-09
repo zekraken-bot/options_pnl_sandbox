@@ -13,16 +13,16 @@ def black_scholes_put(S, K, T, r, sigma):
 # Define the parameters for the bull put spread
 lower_range = 2000
 upper_range = 3500
-lower_choice = 2400
-upper_choice = 2710
-Date = "10/11/2024"  # Expiration date of the puts
-K_short = 2600  # Strike price of the short put (higher strike)
-K_long = 2300  # Strike price of the long put (lower strike)
-IV_short = 54.6  # Implied Volatility for short put
-IV_long = 66  # Implied Volatility for long put
-premium_received_short = 90.1 # Premium received for short put
-premium_paid_long = 15.4  # Premium paid for long put
-num_contracts = 4  # Number of contracts (same for both legs)
+lower_choice = 2200
+upper_choice = 2525
+Date = "11/15/2024"  # Expiration date of the puts
+K_short = 2450  # Strike price of the short put (higher strike)
+K_long = 2200  # Strike price of the long put (lower strike)
+IV_short = 104.8  # Implied Volatility for short put (higher strike)
+IV_long = 94.1  # Implied Volatility for long put (lower strike)
+premium_received_short = 21.26 # Premium received for short put (higher strike)
+premium_paid_long = 105.26  # Premium paid for long put (lower strike)
+num_contracts = 0.5  # Number of contracts (same for both legs)
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 

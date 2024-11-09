@@ -11,12 +11,12 @@ def black_scholes_call(S, K, T, r, sigma):
     return call_price
 
 # Define the parameters for the option strategy
-lower_range = 2350
-upper_range = 2750
-Date = "10/11/2024"  # Expiration date of short call
-K1 =  2700 # Strike price of short call
-IV1 = 57.5  # Implied Volatility for short call
-premium_received = 104.3 
+lower_range = 2300
+upper_range = 2700
+Date = "11/15/2024"  # Expiration date of short call
+K1 =  2600 # Strike price of short call
+IV1 = 73.8 # Implied Volatility for short call
+premium_received = 52.2 
   # Premium received for short call
 num_contracts = 1
 r = 0.01  # Risk-free rate; daily yield curve rates (use expiry length); https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics?data=yield

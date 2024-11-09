@@ -18,19 +18,17 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy
-lower_range = 2800
-upper_range = 4000
-lower_val = 2975
-upper_val = 3300
-expiration_date = "08/30/2024"  # Expiration date of all options
-
-IV = 0.635  # Implied Volatility for options
-K_call_long = 3000  # Strike price for the long call
-K_call_short = 3400  # Strike price for the short call
-premium_paid_long_call = 391.9 # Premium paid for the long call
-premium_received_call = 187.5  # Premium received for short call
-num_contracts_call_long = 2  # Number of contracts for the long call option
-num_contracts_call_short = 7.75 # Number of contracts for the short call option
+lower_range = 2000
+upper_range = 3500
+lower_val = 2600
+upper_val = 3200
+expiration_date = "11/15/2024"  # Expiration date of all options
+K = 2900  # Strike price for both the long call and long put
+IV = 0.576  # Implied Volatility for options
+premium_paid_put = 70.56 # Premium paid for long put
+premium_paid_call = 114.33  # Premium paid for long call
+num_put_contracts = 0.75
+num_call_contracts = 0.75
 
 r = 0.01  # Risk-free rate
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
@@ -41,46 +39,45 @@ today = datetime.today()
 T = (date1 - today).days / 365.0  # Time to expiration in years
 
 # Calculate the price for the options today
-call_price_today_short = black_scholes_call(S, K_call_short, T, r, IV)
+call_price_today = black_scholes_call(S, K, T, r, IV)
+put_price_today = black_scholes_put(S, K, T, r, IV)
 
-call_price_today_long = black_scholes_call(S, K_call_long, T, r, IV)
-
-# Calculate the payoff for the short call, long put, and long call at expiration
-payoff_short_call = (premium_received_call - np.maximum(S - K_call_short, 0)) * num_contracts_call_short
-payoff_long_call = (np.maximum(S - K_call_long, 0) - premium_paid_long_call) * num_contracts_call_long
-payoff_strategy = payoff_short_call + payoff_long_call
+# Calculate the payoff for the long straddle at expiration
+payoff_long_put = np.maximum(K - S, 0) - premium_paid_put
+payoff_long_call = np.maximum(S - K, 0) - premium_paid_call
+payoff_long_straddle = (payoff_long_put * num_put_contracts) + (payoff_long_call * num_call_contracts)
 
 # Calculate the current payoff for today
-current_payoff = (- (call_price_today_short * num_contracts_call_short)
-                  + (call_price_today_long * num_contracts_call_long) 
-                  + (premium_received_call * num_contracts_call_short) - (premium_paid_long_call * num_contracts_call_long))
+current_payoff = ((put_price_today - premium_paid_put) * num_put_contracts + 
+                  (call_price_today - premium_paid_call) * num_call_contracts)
 
-# Calculate the total premium received/paid
-total_premium_received_call = premium_received_call * num_contracts_call_short
+# Calculate the total premium paid
+total_premium_paid = (premium_paid_put * num_put_contracts) + (premium_paid_call * num_call_contracts)
 
-total_premium_paid_long_call = premium_paid_long_call * num_contracts_call_long
-total_premium_net = total_premium_received_call - total_premium_paid_long_call
-
+# Calculate the breakeven prices
+breakeven_price_low = K - total_premium_paid / (num_put_contracts + num_call_contracts)
+breakeven_price_high = K + total_premium_paid / (num_put_contracts + num_call_contracts)
 
 # Plotting the payoffs
 fig, ax = plt.subplots(figsize=(14, 8))
-ax.plot(S, payoff_strategy, label=f'Payoff at Expiration ({expiration_date})', color='black')
+ax.plot(S, payoff_long_straddle, label=f'Payoff at Expiration ({expiration_date})', color='black')
 ax.plot(S, current_payoff, label='Current Payoff', linestyle='dotted', color='purple')
 ax.set_xlabel("Stock Price")
 ax.set_ylabel("Profit / Loss")
 ax.axhline(0, color='black', lw=0.5)
-ax.axvline(K_call_short, color='red', linestyle='--', label=f"Short Call Strike Price = {K_call_short}")
-ax.axvline(K_call_long, color='orange', linestyle='--', label=f"Long Call Strike Price = {K_call_long}")
+ax.axvline(K, color='blue', linestyle='--', label=f"Strike Price = {K}")
+ax.axvline(breakeven_price_low, color='green', linestyle='--', label=f"Breakeven Low = {breakeven_price_low:.2f}")
+ax.axvline(breakeven_price_high, color='green', linestyle='--', label=f"Breakeven High = {breakeven_price_high:.2f}")
 ax.legend(fontsize=9)
 ax.grid(True)
 
 # Selecting specific prices for the table
-table_prices = np.linspace(lower_range, upper_range, 15)
-table_prices = np.append(table_prices, [K_call_short, K_call_long, lower_val, upper_val])
+table_prices = np.linspace(lower_range, upper_range, 18)
+table_prices = np.append(table_prices, [K, lower_val, upper_val])
 table_prices = np.unique(np.sort(table_prices))  # Ensure sorted and unique values
 
 # Interpolating payoffs at these prices
-table_payoffs = np.interp(table_prices, S, payoff_strategy)  # Interpolating payoffs at these prices
+table_payoffs = np.interp(table_prices, S, payoff_long_straddle)  # Interpolating payoffs at these prices
 table_current_payoffs = np.interp(table_prices, S, current_payoff)  # Interpolating current payoffs at these prices
 
 # Adding a table at the bottom of the plot
@@ -92,9 +89,9 @@ table = plt.table(cellText=[np.round(table_payoffs, 2), np.round(table_current_p
                   loc='bottom',
                   bbox=[0.0, -0.4, 1, 0.25])  # Adjust bbox to fit within figure
 
-# Highlighting the columns for K_put, K_call and breakeven prices
-highlight_strikes = [K_call_short, K_call_long]
-colors = ['#FFB6C1', '#ADD8E6', '#FFD700']
+# Highlighting the columns for K and breakeven prices
+highlight_strikes = [K, lower_val, upper_val]
+colors = ['#FFB6C1', '#ADD8E6', '#98FB98']
 for col in range(len(table_prices)):
     if table_prices[col] in highlight_strikes:
         table[(0, col)].set_facecolor(colors[highlight_strikes.index(table_prices[col])])

@@ -11,15 +11,15 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy (for shorting puts)
-lower_range = 1700
-upper_range = 3000
-lower_choice = 2450
-upper_choice = 2750
-Date = "10/11/2024"  # Expiration date of the short put
-K1 = 2600  # Strike price of short put
-IV1 = 56.8 # Implied Volatility for short put
-premium_received = 95.3  # Premium received for short put
-num_contracts = 1
+lower_range = 1900
+upper_range = 3100
+lower_choice = 2630
+upper_choice = 2980
+Date = "11/15/2024"  # Expiration date of the short put
+K1 = 2900  # Strike price of short put
+IV1 = 61.8 # Implied Volatility for short put
+premium_received = 98.34  # Premium received for short put
+num_contracts = 2
 r = 0.01  # Risk-free rate; daily yield curve rates (use expiry length)
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 

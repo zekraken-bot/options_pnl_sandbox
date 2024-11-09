@@ -13,13 +13,13 @@ def black_scholes_call(S, K, T, r, sigma):
 # Define the parameters for the option strategy
 lower_range = 1500
 upper_range = 3500
-lower_choice = 2450
-upper_choice = 2750
-Date = "10/11/2024"  # Expiration date of the long call
-K1 = 2400  # Strike price of long call
-IV1 = 58.3 # Implied Volatility for long call
-premium_paid = 295.3 # Premium paid for long call
-num_contracts = 1
+lower_choice = 2750
+upper_choice = 3180
+Date = "11/15/2024"  # Expiration date of the long call
+K1 = 2650 # Strike price of long call
+IV1 = 73.4 # Implied Volatility for long call
+premium_paid = 343.4 # Premium paid for long call
+num_contracts = 2
 r = 0.01  # Risk-free rate; daily yield curve rates (use expiry length); https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics?data=yield
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 

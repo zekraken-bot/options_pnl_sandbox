@@ -11,17 +11,17 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy
-lower_range = 1500
+lower_range = 2000
 upper_range = 3500
-lower_choice = 2100
-upper_choice = 3500
-Date = "10/04/2024"  # Expiration date of the puts
+lower_choice = 2650
+upper_choice = 3000
+Date = "11/15/2024"  # Expiration date of the puts
 K1 = 2700  # Strike price of long put
 K2 = 2600  # Strike price of short puts (lower strike)
-IV1 = 54.1  # Implied Volatility for long put
-IV2 = 55.9  # Implied Volatility for short put
-premium_paid_long = 111.1 # Premium paid for long put
-premium_received_short = 61.6  # Premium received for short puts
+IV1 = 60.7  # Implied Volatility for long put
+IV2 = 65.3  # Implied Volatility for short put
+premium_paid_long = 27.07 # Premium paid for long put
+premium_received_short = 14.4  # Premium received for short puts
 num_long_contracts = 1  # Number of long contracts
 num_short_contracts = 4  # Number of short contracts
 r = 0.01  # Risk-free rate

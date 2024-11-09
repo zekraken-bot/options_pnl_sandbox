@@ -11,15 +11,16 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 # Define the parameters for the option strategy
-lower_range = 2000
-upper_range = 4000
+lower_range = 1700
+upper_range = 3500
 lower_choice = 2700
-upper_choice = 3350
-Date = "08/30/2024"  # Expiration date of the long put
-K1 = 3000  # Strike price of long put
-IV1 = 59.4  # Implied Volatility for long put
-premium_paid = 202 # Premium paid for long put
-num_contracts = 4
+upper_choice = 3050
+Date = "11/15/2024"  # Expiration date of the long put
+K1 = 2900  # Strike price of long put
+IV1 =  57.1 # Implied Volatility for long put
+premium_paid = 68.74 # Premium paid for long put
+num_contracts = 1.2
+
 r = 0.01  # Risk-free rate; daily yield curve rates (use expiry length); https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics?data=yield
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 

@@ -20,18 +20,18 @@ def black_scholes_put(S, K, T, r, sigma):
 # Define the parameters for the option strategy
 lower_range = 2000
 upper_range = 4000
-show_down = 2450
-show_up = 2750
+show_down = 2650
+show_up = 3000
 
-expiration_date = "10/04/2024"  # Expiration date of the options
-IV = 52.5  # Implied Volatility for options
+expiration_date = "11/15/2024"  # Expiration date of the options
+IV = 60  # Implied Volatility for options
 r = 0.01  # Risk-free rate
 
 # Parameters for the synthetic long stock strategy
-K_strike = 2600  # Strike price for both the call and put
-premium_paid_call = 120.8 # Premium paid for buying the call
-premium_received_put = 65.8 # Premium received for selling the put
-num_contracts = 1  # Number of contracts for both call and put
+K_strike = 2800  # Strike price for both the call and put
+premium_paid_call = 146.34 # Premium paid for buying the call
+premium_received_put = 60.19 # Premium received for selling the put
+num_contracts = 1.5  # Number of contracts for both call and put
 
 S = np.linspace(lower_range, upper_range, 400)  # Range of stock prices
 
